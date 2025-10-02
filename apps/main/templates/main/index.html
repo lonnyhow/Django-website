@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block content %}
+<div class="row row-gap-4">
+    {% for article in articles %}
+    <div class="col-4">{% include 'components/_article-card.html' %}</div>
+    {% endfor %}
+</div>
+
+{% include 'components/_pagination.html' %}
+{% endblock %}

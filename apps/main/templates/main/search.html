@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Поиск
+{% endblock %}
+
+{% block content %}
+<div class="row my-5">
+    <div class="col-9">
+        <div class="row row-gap-4">
+            {% for article in articles %}
+            <div class="col-12">{% include 'components/_found-article-card.html' %}</div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-3">
+        <ul class="list-group list-group-action">
+            <li class="list-group-item list-group-item-action"><b>Найдено: </b>{{ articles.count }}</li>
+            <li class="list-group-item list-group-item-action"><b>Лайки: </b>{{ total_likes }}</li>
+            <li class="list-group-item list-group-item-action"><b>Дизлайки: </b>{{ total_dislikes }}</li>
+            <li class="list-group-item list-group-item-action"><b>Просмотры: </b>{{ total_views }}</li>
+            <li class="list-group-item list-group-item-action"><b>Комментарии: </b>{{ total_comments }}</li>
+        </ul>
+    </div>
+</div>
+
+<!--добавить блок с пагинацией-->
+{% endblock %}

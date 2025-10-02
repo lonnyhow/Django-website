@@ -1,0 +1,20 @@
+<div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+    <div class="swiper-wrapper">
+        {% for article_image in article.images.all %}
+        <div class="swiper-slide">
+            <img src="{{ article_image.image.url }}"/>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+</div>
+<div thumbsSlider="" class="swiper mySwiper">
+    <div class="swiper-wrapper">
+        {% for article_image in article.images.all %}
+        <div class="swiper-slide">
+            <img src="{{ article_image.image.url }}"/>
+        </div>
+        {% endfor %}
+    </div>
+</div>

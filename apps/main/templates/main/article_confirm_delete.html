@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Удаление статьи: {{ article.title }}
+{% endblock %}
+
+
+
+{% block content %}
+<form action="" class="my-5" method="post">
+    {% csrf_token %}
+    <p>
+        Вы действительно хотите удалить статью с названием: <b>{{ article.title }}</b>
+    </p>
+    <input type="submit" value="Да, удалить" class="btn btn-danger">
+    <a href="{{ article.get_absolute_url }}" class="btn btn-primary">Обратно</a>
+</form>
+{% endblock %}

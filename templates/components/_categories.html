@@ -1,0 +1,23 @@
+{% load main_tags %}
+
+{% get_categories as categories %}
+
+<div class="list-group">
+  <a href="{% url 'category-articles' 'all' %}" class="btn btn-outline-secondary mb-2">
+    Все статьи
+
+    {{ categories.1 }}  <!--|применяем фильтр для объекта-->
+
+  </a>
+  {% for category in categories.0 %}
+  <a href="{% url 'category-articles' category.id %}" class="list-group-item d-flex justify-content-between align-items-center">
+    {{ category }}
+    <span class="badge text-bg-primary rounded-pill">{{ category.article_set.count }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<!--
+Политика - politika
+
+-->

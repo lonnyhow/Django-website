@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Категория: {{ category }}
+{% endblock %}
+
+
+{% block content %}
+<div class="d-flex column-gap-3 mb-4">
+    {% for key, value in sort_fields.items %}
+
+    {% if value.0 == request.GET.sort %}
+    <a href="?sort={{ value.1 }}" class="btn btn-outline-secondary">{{ key }}</a>
+    {% else %}
+    <a href="?sort={{ value.0 }}" class="btn btn-outline-secondary">{{ key }}</a>
+    {% endif %}
+
+    {% endfor %}
+</div>
+<div class="row row-gap-4">
+    {% for article in articles %}
+    <div class="col-4">{% include 'components/_article-card.html' %}</div>
+    {% empty %}
+    <h2 class="text-center">Статей нет</h2>
+    {% endfor %}
+</div>
+
+{% include 'components/_pagination.html' %}
+{% endblock %}

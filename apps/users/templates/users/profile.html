@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Пользователь: {{ author.username }}
+{% endblock %}
+
+<!--request.user-->
+
+{% block content %}
+<div class="mb-4">
+    <ul class="list-group list-group-action">
+        {% for key, value in user_info.items %}
+        <li class="list-group-item list-group-item-action">
+            <b>{{ key|title }}: </b>
+            <i>{{ value }}</i>
+        </li>
+        {% endfor %}
+<!--отобразить все ключи значения в теге li-->
+    </ul>
+</div>
+<div class="mb-4">
+    <div class="row row-gap-4">
+        {% for article in author.article_set.all %}
+        <div class="col-4">{% include 'components/_article-card.html' %}</div>
+        {% endfor %}
+    </div>
+
+    {% include 'components/_pagination.html' %}
+</div>
+{% endblock %}

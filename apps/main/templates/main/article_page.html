@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Статья: {{ article.title }}
+{% endblock %}
+
+
+{% block extra_css %}
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+  <style>
+    .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .swiper {
+      width: 100%;
+      height: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .swiper-slide {
+      background-size: cover;
+      background-position: center;
+    }
+
+    .mySwiper2 {
+      height: 80%;
+      width: 100%;
+    }
+
+    .mySwiper {
+      height: 20%;
+      box-sizing: border-box;
+      padding: 10px 0;
+    }
+
+    .mySwiper .swiper-slide {
+      width: 25%;
+      height: 100%;
+      opacity: 0.4;
+    }
+
+    .mySwiper .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-6">
+        {% include 'components/_article-slider.html' %}
+    </div>
+    <div class="col-6">
+        <h1 class="text-center mb-3">{{ article.title }}</h1>
+        <ul class="list-group list-group-action mb-3">
+            {% for key, value in article.get_detail_info.items %}
+            <li class="list-group-item list-group-item-action"><b>{{ key|title }}: </b>{{ value }}</li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex align-items-center column-gap-3">
+            {% if request.user == article.author %}
+            <a href="{% url 'article-update' article.id %}" class="btn btn-primary">Изменить</a>
+            <a href="{% url 'article-delete' article.id %}" class="btn btn-danger">Удалить</a>
+            {% endif %}
+
+            {% if request.user.is_authenticated and request.user != article.author %}
+            <a href="{% url 'vote' article_id=article.id action='add_like' %}" class="btn btn-success">Лайк</a>
+            <a href="{% url 'vote' article_id=article.id action='add_dislike' %}" class="btn btn-danger">Дизлайк</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h2 class="text-center">Полное описание</h2>
+    <p><i>{{ article.full_description }}</i></p>
+</div>
+
+<div class="mb-4">
+    <div class="row row-gap-4">
+        {% for comment in comments %}
+        <div class="col-6">{% include 'components/_comment-card.html' %}</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if request.user.is_authenticated %}
+<div class="mb-4">
+    <form action="" method="post">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button class="btn btn-dark">Отправить</button>
+    </form>
+</div>
+{% else %}
+<p>
+    <i>Только авторизованные пользователи могут оставлять комментарии...</i>
+    <a href="{% url 'users:login-user' %}">Войти</a>
+</p>
+{% endif %}
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      spaceBetween: 10,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      thumbs: {
+        swiper: swiper,
+      },
+    });
+  </script>
+{% endblock %}
+
+
+<!--
+отобразить комментарии на детальной странице статьи
+1) получаете все комментарии статьи и добавляете в переменную
+2) отдаете переменную в context
+3) в шаблоне делаете цикл по ключу с комментариями
+4) заполняете компонент карточки комментария
+
+
+-->

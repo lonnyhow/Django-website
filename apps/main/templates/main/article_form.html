@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ page_title }} статью
+{% endblock %}
+
+
+{% block content %}
+<form action="" class="my-5" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2 class="text-center">{{ page_title }} статью</h2>
+
+    {{ form.as_p }}
+
+    <button class="btn btn-primary">{{ page_title }} статью</button>
+</form>
+{% endblock %}
